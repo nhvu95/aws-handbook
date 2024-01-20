@@ -1,0 +1,47 @@
+## EBS Volume types
+
+* EBS Volumes come in 6 types
+     * gp2 / gp3 (SSD): General purpose SSD volume that balances price and performance for a wide variety of workloads
+     * io1 / io2 (SSD): Highest-performance SSD for mission-critical low-latency or high-throughput workloads
+     * st1 (HDD): Low cost HDD volume designed for frequently accessed, throughput-intensive workloads
+     * sc1 (HDD): Lowest cost HDD volume designed for less frequently accessed workloads
+
+* EBS Volumes are characterized in Size | Throughput | IOPS ( I/O Ops Per Sec)
+* When in doubt, always consult the AWS documentation - it's good!
+* Only gp2/gp3 and io1/io2 can be used as boot volumes
+
+### I. General Purpose SSD
+* Cost-effective storage, low-latency
+* System boot volumes, Virtual desktops, Development and test environments
+* 1 GiB to 16 TiB per second
+* gp3: 
+   * Baseline of 3000 IOPS and throughput of 125MiB/s
+   * Can increase IOPS up to 16000 and throughput to 1000 MiB/s independently
+* gp2: 
+   * Small gp2 volumes can burst IOPS to 3000
+   * The size of the volumes and IOPS are linked max IOPS is 16000
+   * 3 IOPS per GB, means at 5334 GB we are at the max IOPS
+
+### II. Provisioned IOPS (PIOPS) SSD
+* Critical business applications with sustained IOPS performance
+* Or applications that need more than 16000 IOPS
+* Great for database workloads ( sensitive to storage perf and consistency)
+* io1/io2 (4 GiB - 16TiB):
+   * Max PIOPS: 64000 for Nitro EC2 instances & 32000 for other
+   *  Can increase PIOPS independently from storage size
+   * io2 have more durability and more IOPS per GiB ( at the same price as io1)
+* io2 Block express (4GiB - 64TiB):
+   * Sub-millisecond latency
+   * Max PIOPS: 256000 with an IOPS: GiB ratio of 1000:1
+* Supports EBS Multi-attach
+
+### III. Hard Disk Drives (HDD)
+* Cannot be a boot volume
+* 125GB to 16TiB
+* Throughput Optimized HDD (st1)
+   * Big Data, Data warehouse, Log processing
+   * Max throughput 500 MiB/s - max IOPS 500
+* Cold HDD (scl)
+   * For data that is infrequently accessed
+   * Scenarios where lowest cost is important
+   * Max throughput 250MiB/s - max IOPS 250 
