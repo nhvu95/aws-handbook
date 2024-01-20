@@ -1,3 +1,5 @@
+![image](https://github.com/nhvu95/aws-handbook/assets/26276890/5f49f31b-8ec1-4e47-bfdc-5db5431d16c6)
+
 * Make a backup (snapshot) of your EBS at a point in time
 * Not necessary to detach volume to do snapshot, but recommended
 * Can copy snapshots across AZ or Region => This is the way we sen data between EBS in different AZ
