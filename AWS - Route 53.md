@@ -3,23 +3,34 @@
 ## AWS - Route 53
 ### Routing policies
 
-- CNAME vs Alias:
-  - CNAME allowed you to point a hostname to any other hostname ( app.mydomain.com => blabla.anydomain.com ). Only work for non-root domain name.
-  - Alias: Point your host name to AWS resource. Free of charge
+The Route 53 policies are intended to manage and control routing in the domain layer, which means it was born to support higher levels in multiple regions. This is different from the ELB, which supports a single region and controls and balances between resources (EC2) in a region.
 
-- Simple:
-  - Routing traffic to single resource. Can specify multiple values in the same record.
-  - If multiple value are returned, the random one is chossen by the client
-  - When Alias is enabled, specify only one AWS resource
-  - Can be associate with Health check
+#### CNAME vs Alias:
+  * CNAME allowed you to point a hostname to any other hostname ( app.mydomain.com => blabla.anydomain.com ). Only work for non-root domain name.
+  * Alias: Point your host name to AWS resource. Free of charge
+
+#### Simple:
+  * Routing traffic to single resource. Can specify multiple values in the same record.
+  * If multiple value are returned, the random one is chossen by the client
+  * When Alias is enabled, specify only one AWS resource
+  * Can be associate with Health check
 ![image](https://github.com/nhvu95/aws-handbook/assets/26276890/b9e29ee5-2dc4-464c-b386-d7518c91a84b)
 
-- Weighted: ( Trọng số)
-  - Control the % of requests that go to each specific resource
-  - % = weight / sum of all the weights
-  - DNS records must have the same name and type
-  - Can be associate with HealthChecks
-  - Load balancing between region, testing new application versions.
-  - Set a weight 0 to a record to stop sending traffic to a resource
-  - If all records are 0, they will be the same rate
+#### Weighted: ( Trọng số)
+  * Control the % of requests that go to each specific resource
+  * % = weight / sum of all the weights
+  * DNS records must have the same name and type
+  * Can be associate with HealthChecks
+  * Load balancing between region, testing new application versions.
+  * Set a weight 0 to a record to stop sending traffic to a resource
+  * If all records are 0, they will be the same rate
 ![image](https://github.com/nhvu95/aws-handbook/assets/26276890/7d83c27c-89c8-4f20-86b2-cf9328380b76)
+
+#### Latency
+  * Redirect ot the resource that has the least latency close to us
+  * Super helpful when latency for users is a priority
+  * Latency is based on traffic between users and AWS Regions
+  * Can be associated with Health checks (Has failover capacity)
+
+#### Health-checks
+   
