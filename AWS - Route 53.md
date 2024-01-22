@@ -1,22 +1,22 @@
 ![image](https://github.com/nhvu95/aws-handbook/assets/26276890/134958a7-a883-46f3-ba46-7287c99a938a)
 
 ## AWS - Route 53
-### Routing policies
+### 1. Routing policies
 
 The Route 53 policies are intended to manage and control routing in the domain layer, which means it was born to support higher levels in multiple regions. This is different from the ELB, which supports a single region and controls and balances between resources (EC2) in a region.
 
-#### CNAME vs Alias:
+### 2. CNAME vs Alias:
   * CNAME allowed you to point a hostname to any other hostname ( app.mydomain.com => blabla.anydomain.com ). Only work for non-root domain name.
   * Alias: Point your host name to AWS resource. Free of charge
 
-#### Simple:
+### 3. Routing policies - Simple:
   * Routing traffic to single resource. Can specify multiple values in the same record.
   * If multiple value are returned, the random one is chossen by the client
   * When Alias is enabled, specify only one AWS resource
   * Can be associate with Health check
 ![image](https://github.com/nhvu95/aws-handbook/assets/26276890/b9e29ee5-2dc4-464c-b386-d7518c91a84b)
 
-#### Weighted: ( Trọng số)
+### 4. Routing policies - Weighted: ( Trọng số)
   * Control the % of requests that go to each specific resource
   * % = weight / sum of all the weights
   * DNS records must have the same name and type
@@ -26,11 +26,35 @@ The Route 53 policies are intended to manage and control routing in the domain l
   * If all records are 0, they will be the same rate
 ![image](https://github.com/nhvu95/aws-handbook/assets/26276890/7d83c27c-89c8-4f20-86b2-cf9328380b76)
 
-#### Latency
+### 5. Routing policies - Latency
   * Redirect ot the resource that has the least latency close to us
   * Super helpful when latency for users is a priority
   * Latency is based on traffic between users and AWS Regions
   * Can be associated with Health checks (Has failover capacity)
 
-#### Health-checks
-   
+### 6. Routing policies - Health-checks
+   ![image](https://github.com/nhvu95/aws-handbook/assets/26276890/ef43072c-c5fd-41d3-93db-c1215dd46e3d)
+   * HTTP Health check are only for public resources
+   * Health Checks => Automated DNS Failover
+   * About 15 global health-checkers will check the endpoint health
+      * Healthy/Unhealthy Threshold - 3 (default)
+      * Interval - 30 sec (can set to 10 sec - higher cost)
+      * Supported protocol: HTTP, HTTPS and TCP
+      * If > 18% of health checkers report the endpoint is healthy, Route 53 considers it healthy, otherwise it's unhealthy.
+      * Ability to choose which locations you want Route 53 to use
+   * Health Checks pass only when the endpoint responds with the 2xx or 3xx status codes
+   * Health Checks can be setup to pass/fail based on the text i nthe first 5120 bytes of the response
+   * Configure you router/firewall to allow incoming request form Route 53 Health Checkers
+
+![image](https://github.com/nhvu95/aws-handbook/assets/26276890/7f4a2295-00a2-4084-aa07-66c7ef89bbb4)
+#### 6.1 Calculate health check
+   * Combine the results of multiple Health Checks into a single Health Check
+   * You can use OR, AND, NOT
+   * Can monitor up to 256 Child Health Checks
+   * Specify how many of the health checks need to pass to make the parent pass
+   * Usage: Perform maintenance to your website without causing all health check to fail
+#### 6.2 Health check on privated zones
+   * Route 53 heath checkers are outside the VPC
+   * They can't access private endpoints (private VPC or on-premise resource)
+![image](https://github.com/nhvu95/aws-handbook/assets/26276890/98a968d5-dba2-473f-9ecd-9f3c657b31a5)
+Solution: You can create a Cloud Watch Metric, and associate a CloudWatch Alarm, then create a HealthCheck that checks the alarm itself
