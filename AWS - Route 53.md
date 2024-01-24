@@ -58,3 +58,26 @@ The Route 53 policies are intended to manage and control routing in the domain l
    * They can't access private endpoints (private VPC or on-premise resource)
 ![image](https://github.com/nhvu95/aws-handbook/assets/26276890/98a968d5-dba2-473f-9ecd-9f3c657b31a5)
 Solution: You can create a Cloud Watch Metric, and associate a CloudWatch Alarm, then create a HealthCheck that checks the alarm itself
+
+### 7. Routing policies - Failover
+![image](https://github.com/nhvu95/aws-handbook/assets/26276890/38b736e6-e577-4784-b795-49da153496f4)
+
+### 8. Routing policies - Geolocation
+* Different from latency-based
+* This routing is based on user location
+* Specify location by Continent, Country or by US State (if there's overlapping, most precise location selected)
+* Should create a "Default" record (in case there's no match on location)
+* Use cases: website localization, restrict content distribution, load balancings...
+* Can be associated with Health Checks
+
+### 9. Routing policies - Geoproximity
+* Route traffic to your resources based on the geographic location of users and resources
+* Ability fo shift more traffic to resources based on the defined bias
+* To change the side of the geographic region, specify bias value
+   * To expand (1-99) more traffic to the resource
+   * To shrink (1-99) less traffic to the resource
+* Resources can be:
+   * AWS resources (specify AWS region)
+   * Non-AWS resources (specify Latitude Longitude)
+* You must use Route 53 Traffic Flow (advanced) to use this feature
+![image](https://github.com/nhvu95/aws-handbook/assets/26276890/be9b4d2b-3a7a-4132-a019-debd1736cbf8)
