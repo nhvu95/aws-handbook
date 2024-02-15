@@ -81,3 +81,11 @@ Solution: You can create a Cloud Watch Metric, and associate a CloudWatch Alarm,
    * Non-AWS resources (specify Latitude Longitude)
 * You must use Route 53 Traffic Flow (advanced) to use this feature
 ![image](https://github.com/nhvu95/aws-handbook/assets/26276890/be9b4d2b-3a7a-4132-a019-debd1736cbf8)
+
+### 10. Routing policies - IP-based Routing
+* Routing is based on clients's IP addresses
+* You provide a list of CIDRs for your client (CIDRs for example 40.102.53.xx) and the corresponding endpoints/locations (user-IP-to-endpoint mappings)
+* Use cases: Optimize performance reduce network costs...
+* Example: route end users form a particular ISP to a specific endpoint
+
+![image](https://raw.githubusercontent.com/nhvu95/aws-handbook/main/AWS%20-%20Route%2053-1708003953709.png)
